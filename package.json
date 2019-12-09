@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "rollup -c --watch --config config/rollup.config.dev.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,21 @@
   "bugs": {
     "url": "https://github.com/cuppi/olaf-mix/issues"
   },
-  "homepage": "https://github.com/cuppi/olaf-mix#readme"
+  "homepage": "https://github.com/cuppi/olaf-mix#readme",
+  "dependencies": {
+    "core-js": "3",
+    "md5": "^2.2.1",
+    "uglify-js": "^3.7.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "jest": "^24.9.0",
+    "jscodeshift": "^0.6.4",
+    "rollup": "^1.27.7",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify": "^6.0.0"
+  }
 }
