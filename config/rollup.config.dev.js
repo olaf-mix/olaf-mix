@@ -1,12 +1,13 @@
-import resolve from 'rollup-plugin-node-resolve';
+import resolve from '@rollup/plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import { uglify } from "rollup-plugin-uglify";
+import olaf from '../rollup-plugin-olaf-mix/index.js';
 
 
 module.exports = () => {
     return {
-        input: './dist/_tmp.js',
+        input: './input/index.js',
         output: {
             name: 'olaf_mix',
             globals: {
@@ -16,6 +17,7 @@ module.exports = () => {
             format: 'umd'
         },
         plugins: [
+            olaf(),
             resolve(),
             commonjs(),
             babel({
