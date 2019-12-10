@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const numeral = require('numeral');
 const {transformHandler} = require('../src/main');
+require('loglevel').setLevel('info');
 
 const TEMP = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_#.*-+';
 module.exports = function(fileInfo, api, options) {
