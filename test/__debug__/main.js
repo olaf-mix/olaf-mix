@@ -5,7 +5,7 @@ const j = require('jscodeshift');
 
 const { exec } = require('child_process');
 const transformFilePath = path.resolve( '..', 'mix-code.js');
-const targetFilePath = path.resolve('..', '..', 'dist', '_app.js');
+const targetFilePath = path.resolve('..', '__testfixtures__', 'function-calle.input.js');
 exec(`export RUN_MODE=debug && ${path.resolve('..', '..', 'node_modules', '.bin', 'jscodeshift')}  -t ${transformFilePath} ${targetFilePath} --dry`, (err, stdout, stderr) => {
     if (err) {
         // node couldn't execute the command
