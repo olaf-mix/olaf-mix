@@ -23,6 +23,7 @@
   "dependencies": {
     "core-js": "3",
     "md5": "^2.2.1",
+    "numeral": "^2.0.6",
     "uglify-js": "^3.7.1"
   },
   "devDependencies": {
