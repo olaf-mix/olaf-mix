@@ -7,5 +7,5 @@ module.exports = function(fileInfo, api, options){
     console.log('transforming', fileInfo.path);
     const root = api.jscodeshift(fileInfo.source);
     transformHandler(root);
-    return root.source();
+    return root.toSource({quote: 'single'});
 }
