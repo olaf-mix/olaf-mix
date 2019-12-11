@@ -1,13 +1,13 @@
 class Foo{
     /* @olaf-mix */
     static run(){
-        console.log('I\'m want run')
+        console.log('I want run')
         this.jump();
         window.alert('A alert')
     }
     
     static jump(){
-        console.log('I\'m want jump')
+        console.log('I want jump')
     }
 }
 
