@@ -1,6 +1,5 @@
 import md5 from 'MD5';
 import ChaosManager from './ChaosManager';
-const TEMP = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_#.*-+';
 
 
 class MixManager{

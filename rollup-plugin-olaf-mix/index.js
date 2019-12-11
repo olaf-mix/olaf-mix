@@ -9,10 +9,9 @@ export default function olafMix (options = {}) {
         name: 'olaf-mix',
         transform(code, id) {
             if (!filter(id)) return null;
-            console.log(id)
             const root = j(code);
             transformHandler(root);
-            code = root.toSource();
+            code = root.toSource({quote: 'single'});
             const result = { code: code };
             return result;
         }

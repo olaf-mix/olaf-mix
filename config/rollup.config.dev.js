@@ -23,7 +23,7 @@ module.exports = () => {
             babel({
                 exclude: 'node_modules/**'
             }),
-            uglify()
+            // uglify(),
         ],
         external: [ 'md5' ],
         treeshake: true
