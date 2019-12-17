@@ -2,11 +2,14 @@
 class Bar{
     /* @olaf-mix */
     static mix(){
+        debugger;
         console.log('*******-*******');
         const string = 'jsasa';
+
         console.log(Bar.base64FromLetter(string));
     }
 
+    /* @olaf-mix */
     static base64FromLetter(letter) {
         const stringByteLength = letter.length;
         let inputBuffer = new ArrayBuffer(stringByteLength);
@@ -14,11 +17,9 @@ class Bar{
         for (let i = 0; i < letter.length; i++) {
             inputBuffer16View[i] = letter.charCodeAt(i);
         }
-
         let inputBuffer8View = new Uint8Array(inputBuffer);
         let cacheBuffer = new ArrayBuffer(Math.ceil(inputBuffer.byteLength / 3) * 4);
         let cache32View = new Uint32Array(cacheBuffer);
-
         for (let i = 0, k = 0; i < inputBuffer8View.byteLength; i += 3, k++) {
             const buffer = new ArrayBuffer(4);
             const buffer8View = new Uint8Array(buffer);
@@ -47,17 +48,17 @@ class Bar{
                 outputString += '='
             }
         }
-
-        return outputString
+        return outputString;
     }
 
+    /* @olaf-mix */
     static b64EncodeUnicode(str) {
         return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
             return String.fromCharCode(parseInt(p1, 16))
         }))
     }
 
-
+    /* @olaf-mix */
     static b64DecodeUnicode(str) {
         return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)

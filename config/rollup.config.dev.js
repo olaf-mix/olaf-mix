@@ -23,7 +23,20 @@ module.exports = () => {
             babel({
                 exclude: 'node_modules/**'
             }),
-            // uglify(),
+            uglify({
+                compress: {
+                    drop_debugger: false,
+                    // assignments: false,
+                    // collapse_vars: false,
+                    // directives: false,
+                    // evaluate: false,
+                    // expression: false,
+                    // hoist_props: false,
+                    // keep_infinity: false,
+                    // properties: false,
+                    // reduce_vars: false,
+                }
+            }),
         ],
         external: [ 'md5' ],
         treeshake: true

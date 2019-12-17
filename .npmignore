@@ -88,7 +88,7 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
-.idea
+/.idea/
+/input/
 /dist/
-/test/__test*__/*.output.js
-
+/test/
