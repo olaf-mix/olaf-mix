@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/cuppi/olaf-mix.git"
+    "url": "git+ssh://git@github.com/jinbaozheng/olaf-mix.git"
   },
   "keywords": [
     "loaf-mix"
@@ -18,9 +18,9 @@
   "author": "jinbaozheng",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cuppi/olaf-mix/issues"
+    "url": "https://github.com/jinbaozheng/olaf-mix/issues"
   },
-  "homepage": "https://github.com/cuppi/olaf-mix#readme",
+  "homepage": "https://github.com/jinbaozheng/olaf-mix#readme",
   "dependencies": {
     "core-js": "3",
     "loglevel": "^1.6.6",
