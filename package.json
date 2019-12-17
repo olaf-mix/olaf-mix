@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "rollup -c --watch --config ./config/rollup.config.dev.js",
+    "dev-webpack": "webpack --watch --config ./config/webpack.config.js",
     "test": "jest"
   },
   "repository": {
@@ -32,11 +33,14 @@
     "@babel/preset-env": "^7.7.4",
     "@rollup/plugin-node-resolve": "^6.0.0",
     "@rollup/pluginutils": "^3.0.0",
+    "babel-loader": "^8.0.6",
     "jest": "^24.9.0",
     "jscodeshift": "^0.6.4",
     "rollup": "^1.27.7",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-uglify": "^6.0.0"
+    "rollup-plugin-uglify": "^6.0.0",
+    "webpack": "^4.41.3",
+    "webpack-cli": "^3.3.10"
   }
 }
