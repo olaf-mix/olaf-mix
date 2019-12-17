@@ -103,4 +103,4 @@ const transformHandler = function(root, options = {forceInjected: false}) {
 
 module.exports = {
     transformHandler,
-}
+};

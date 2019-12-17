@@ -1,23 +1,23 @@
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import babel from 'rollup-plugin-babel';
-import { uglify } from "rollup-plugin-uglify";
-import olaf from '../packages/rollup-plugin-olaf-mix/index.js';
-
+const resolve  = require('@rollup/plugin-node-resolve');
+const commonjs  = require('rollup-plugin-commonjs');
+const babel  = require('rollup-plugin-babel');
+const { uglify } = require('rollup-plugin-uglify');
+const path = require('path');
+// const olaf = require('../packages/rollup-plugin-olaf-mix/index.js');
 
 module.exports = () => {
     return {
-        input: './example/input/index.js',
+        input: path.resolve(__dirname, '..', 'example/input/index.js'),
         output: {
             name: 'olaf_mix',
             globals: {
                 md5: 'md5'
             },
-            file: './example/dist/index.js',
+            file: path.resolve(__dirname, '..', 'example/dist/index._rollup.js'),
             format: 'umd'
         },
         plugins: [
-            olaf(),
+            // olaf(),
             resolve(),
             commonjs(),
             babel({

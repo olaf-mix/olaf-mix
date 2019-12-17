@@ -1,8 +1,8 @@
-import { createFilter } from '@rollup/pluginutils';
-import j from 'jscodeshift';
-const {transformHandler} = require('../../src/main');
+const j = require('jscodeshift');
+const { createFilter } = require('@rollup/pluginutils');
+const {transformHandler} = require('../../src/main.js');
 
-export default function olafMix (options = {}) {
+module.exports = (options = {}) => {
     const filter = createFilter(options.include, options.exclude, {
     });
     let forceInjected = false;
