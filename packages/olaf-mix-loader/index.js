@@ -1,7 +1,7 @@
 const j = require('jscodeshift');
 const path = require('path');
 const fs = require('fs');
-const {transformHandler} = require('../src/main');
+const {transformHandler} = require('../../src/main');
 const config_path = path.resolve(process.cwd(), '.olaf.config.js');
 
 
