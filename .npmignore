@@ -89,6 +89,8 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 /.idea/
-/input/
-/dist/
+/config/
+/example/
+/packages/
 /test/
+babel.config.js

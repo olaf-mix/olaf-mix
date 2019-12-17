@@ -1,5 +1,5 @@
 const path = require('path');
-const OlafMixLoader = require('../olaf-mix-loader/index');
+const OlafMixLoader = require('../packages/olaf-mix-loader/index');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
