@@ -31,7 +31,7 @@ const CONVER_LITERAL_TO_BUFFER_MATTER = (path) => {
     if (value instanceof RegExp){
     }
     return path.node;
-}
+};
 
 
 const CONVER_LITERAL_MATTER = (path) => {
