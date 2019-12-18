@@ -9,7 +9,7 @@ module.exports = () => {
     return {
         input: path.resolve(__dirname, '..', 'test', 'index.js'),
         output: {
-            name: 'olaf_mix',
+            name: 'main',
             globals: {
                 md5: 'md5'
             },

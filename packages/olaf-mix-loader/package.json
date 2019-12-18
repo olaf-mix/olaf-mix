@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@olaf-mix/olaf-mix": "^0.0.2-beta2"
+    "@olaf-mix/olaf-mix": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",

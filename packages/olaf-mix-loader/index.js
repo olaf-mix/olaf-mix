@@ -1,7 +1,7 @@
 const j = require('jscodeshift');
 const path = require('path');
 const fs = require('fs');
-const {transformHandler} = require('@olaf-mix/olaf-mix');
+const {mixCode} = require('@olaf-mix/olaf-mix');
 
 // const config_path = path.resolve(process.cwd(), '.olaf.config.js');
 // let config = null;
@@ -12,10 +12,7 @@ const {transformHandler} = require('@olaf-mix/olaf-mix');
 // }
 
 function OlafMixLoader(source) {
-    // Custom loader logic
-    const root = j(source);
-    transformHandler(root);
-    return root.toSource({quote: 'single'});
+    return mixCode(source);
 }
 
 

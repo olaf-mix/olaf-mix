@@ -1,23 +1,21 @@
 const j = require('jscodeshift');
 const { createFilter } = require('@rollup/pluginutils');
-const {transformHandler} = require('../../src/main.js');
+const {mixCode} = require('@olaf-mix/olaf-mix');
 
 module.exports = (options = {}) => {
     const filter = createFilter(options.include, options.exclude, {
     });
     let forceInjected = false;
     return {
-        name: 'olaf-mix',
+        name: 'rollup-plugin-olaf-mix',
         load(id){
             forceInjected = true;
         },
         transform(code, id) {
             if (!filter(id)) return null;
-            const root = j(code);
-            transformHandler(root, {forceInjected});
-            code = root.toSource({quote: 'single'});
-            const result = { code: code };
-            return result;
+            return {
+                code: mixCode(code, {forceInjected})
+            };
         }
     };
 };
