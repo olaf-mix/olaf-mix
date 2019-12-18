@@ -4,8 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "rollup -c --watch --config ./config/rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@olaf-mix/olaf-mix": "^0.0.2-beta2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "rollup": "^1.27.7",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-uglify": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^6.0.0",
+    "@rollup/pluginutils": "^3.0.0"
+  }
 }

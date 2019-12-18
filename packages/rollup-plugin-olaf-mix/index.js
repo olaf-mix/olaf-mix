@@ -20,4 +20,4 @@ module.exports = (options = {}) => {
             return result;
         }
     };
-}
+};
