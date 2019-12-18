@@ -91,4 +91,4 @@ typings/
 .idea
 example/dist/
 /test/__test*__/*.output.js
-
+example/*output.js

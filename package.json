@@ -8,6 +8,7 @@
     "test": "test"
   },
   "scripts": {
+    "dev": "rollup -c --watch --config ./config/rollup.config.js",
     "test": "jest"
   },
   "repository": {
@@ -31,6 +32,13 @@
   },
   "devDependencies": {
     "jest": "^24.9.0",
-    "jscodeshift": "^0.6.4"
+    "jscodeshift": "^0.6.4",
+    "rollup": "^1.27.13",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-uglify": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^6.0.0",
+    "@rollup/pluginutils": "^3.0.0",
+    "@olaf-mix/rollup-plugin-olaf-mix": "^1.0.0"
   }
 }
