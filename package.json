@@ -1,8 +1,12 @@
 {
-  "name": "olaf-mix",
+  "name": "@olaf-mix/olaf-mix",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "A flexible obfuscation tool",
+  "main": "./lib/index.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
   "scripts": {
     "dev-rollup": "rollup -c --watch --config ./config/rollup.config.dev.js",
     "dev-webpack": "webpack --watch --config ./config/webpack.config.js",
@@ -10,10 +14,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/jinbaozheng/olaf-mix.git"
+    "url": "git+https://github.com/jinbaozheng/olaf-mix.git"
   },
   "keywords": [
-    "loaf-mix"
+    "olaf-mix",
+    "olaf"
   ],
   "author": "jinbaozheng",
   "license": "ISC",
