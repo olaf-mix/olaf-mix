@@ -28,11 +28,11 @@
   "dependencies": {
     "loglevel": "^1.6.6",
     "md5": "^2.2.1",
-    "numeral": "^2.0.6"
+    "numeral": "^2.0.6",
+    "jscodeshift": "^0.6.4"
   },
   "devDependencies": {
     "jest": "^24.9.0",
-    "jscodeshift": "^0.6.4",
     "rollup": "^1.27.13",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
