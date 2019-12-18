@@ -4,12 +4,12 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
     // mode: 'development',
     mode: 'production',
-    entry: './example/input/index.js',
+    entry: path.resolve(__dirname, '..', 'test', 'index.js'),
     output: {
         library: 'olaf_mix',
         libraryTarget: 'umd',
         filename: 'index._webpack.js',
-        path: path.resolve(__dirname, '..', 'example', 'dist'),
+        path: path.resolve(__dirname, '..', 'test'),
     },
     module: {
         rules: [
@@ -17,8 +17,8 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: [
-                    'babel-loader',
-                    'olaf-mix-loader',
+                    // 'babel-loader',
+                    path.resolve(__dirname, '../index.js'),
                 ]
             }
         ]
@@ -27,7 +27,7 @@ module.exports = {
         modules: ['node_modules', path.resolve(__dirname, '..', 'packages')]
     },
     optimization: {
-        minimize: true,
+        minimize: false,
         minimizer: [
             new TerserPlugin({
                 minify: (file, sourceMap) => {

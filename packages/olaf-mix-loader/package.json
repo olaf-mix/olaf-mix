@@ -2,13 +2,18 @@
   "name": "@olaf-mix/olaf-mix-loader",
   "version": "0.0.1",
   "description": "",
+
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "olaf-mix": "^0.0.1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --watch --config ./config/webpack.config.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@olaf-mix/olaf-mix": "^0.0.2-beta2"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.3"
+  }
 }

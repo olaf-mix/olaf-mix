@@ -1,16 +1,15 @@
 const j = require('jscodeshift');
 const path = require('path');
 const fs = require('fs');
-const {transformHandler} = require('olaf-mix');
-const config_path = path.resolve(process.cwd(), '.olaf.config.js');
+const {transformHandler} = require('@olaf-mix/olaf-mix');
 
-
-let config = null;
-if (fs.existsSync(config_path)){
-    config = require(config_path);
-} else {
-    config = require(path.resolve(__dirname, './.default.olaf.config.js'));
-}
+// const config_path = path.resolve(process.cwd(), '.olaf.config.js');
+// let config = null;
+// if (fs.existsSync(config_path)){
+//     config = require(config_path);
+// } else {
+//     config = require(path.resolve(__dirname, './.default.olaf.config.js'));
+// }
 
 function OlafMixLoader(source) {
     // Custom loader logic
