@@ -2,7 +2,7 @@
   "name": "@olaf-mix/olaf-mix",
   "version": "0.0.2-beta2",
   "description": "A flexible obfuscation tool",
-  "main": "./src/main.js",
+  "main": "./src/index.js",
   "directories": {
     "example": "example",
     "test": "test"

@@ -105,12 +105,19 @@ const JSCODESHIFT_DEFAULT_OPTION = {
     quote: 'single'
 };
 
-const mixCode = function(code, options = {
+const DEFAULT_OPTION =  {
+    forceInjected: false,
     returnAST: false,
     jscodeshift: JSCODESHIFT_DEFAULT_OPTION
-}){
+};
+
+const mixCode = function(code, options){
+    options = {
+        ...DEFAULT_OPTION,
+        ...options
+    }
     const root = j(code);
-    transformHandler(root);
+    transformHandler(root, options.forceInjected);
     if (options.returnAST){
         return root;
     }
@@ -118,6 +125,5 @@ const mixCode = function(code, options = {
 }
 
 module.exports = {
-    transformHandler,
     mixCode,
 };
