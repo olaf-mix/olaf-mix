@@ -12,7 +12,8 @@ const {mixCode} = require('@olaf-mix/olaf-mix');
 // }
 
 function OlafMixLoader(source) {
-    return mixCode(source);
+    const self = this;
+    return mixCode(source, {forceInjected: true});
 }
 
 

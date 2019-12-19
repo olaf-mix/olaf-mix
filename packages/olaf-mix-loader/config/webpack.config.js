@@ -6,7 +6,7 @@ module.exports = {
     mode: 'production',
     entry: path.resolve(__dirname, '..', 'test', 'index.js'),
     output: {
-        library: 'olaf_mix',
+        library: 'main',
         libraryTarget: 'umd',
         filename: 'index._webpack.js',
         path: path.resolve(__dirname, '..', 'test'),
@@ -17,7 +17,7 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: [
-                    // 'babel-loader',
+                    'babel-loader',
                     path.resolve(__dirname, '../index.js'),
                 ]
             }

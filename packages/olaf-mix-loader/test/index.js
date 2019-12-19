@@ -1,11 +1,12 @@
-// import MixManager from './MixManager';
-class Bar{
+import Foo from './other';
+class Bar extends Foo{
     /* @olaf-mix */
-    static mix(){
-       console.log('just a test');
+    static sayGod(){
+       console.log('Oh~ God~!');
     }
+
 }
 
 export {
-    Bar,
+    Bar
 };

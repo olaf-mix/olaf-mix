@@ -2,7 +2,6 @@
   "name": "@olaf-mix/olaf-mix-loader",
   "version": "0.0.2",
   "description": "",
-
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,6 +15,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
+    "babel-loader": "^8.0.6",
     "webpack": "^4.41.3",
     "webpack-cli": "^3.3.10"
   }
