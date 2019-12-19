@@ -2,18 +2,19 @@ const resolve  = require('@rollup/plugin-node-resolve');
 const commonjs  = require('rollup-plugin-commonjs');
 const babel  = require('rollup-plugin-babel');
 const { uglify } = require('rollup-plugin-uglify');
+const typescript = require('@rollup/plugin-typescript');
 const path = require('path');
 const olaf = require('../index.js');
 
 module.exports = () => {
-    return {
+    return [{
         input: path.resolve(__dirname, '..', 'test', 'index.js'),
         output: {
             name: 'main',
             globals: {
                 md5: 'md5'
             },
-            file: path.resolve(__dirname, '..', 'test', 'index._rollup.js'),
+            file: path.resolve(__dirname, '..', 'test', 'index.output.js'),
             format: 'umd'
         },
         plugins: [
@@ -23,22 +24,29 @@ module.exports = () => {
             babel({
                 exclude: 'node_modules/**'
             }),
-            // uglify({
-            //     compress: {
-            //         drop_debugger: false,
-            //         // assignments: false,
-            //         // collapse_vars: false,
-            //         // directives: false,
-            //         // evaluate: false,
-            //         // expression: false,
-            //         // hoist_props: false,
-            //         // keep_infinity: false,
-            //         // properties: false,
-            //         // reduce_vars: false,
-            //     }
-            // }),
         ],
         external: [ 'md5' ],
         treeshake: true
-    }
+    }, {
+        input: path.resolve(__dirname, '..', 'test', 'index.ts'),
+        output: {
+            name: 'main',
+            globals: {
+                md5: 'md5'
+            },
+            file: path.resolve(__dirname, '..', 'test', 'index.typescript.output.js'),
+            format: 'umd'
+        },
+        plugins: [
+            olaf(),
+            resolve(),
+            commonjs(),
+            babel({
+                exclude: 'node_modules/**'
+            }),
+            typescript()
+        ],
+        external: [ 'md5' ],
+        treeshake: true
+    }]
 };

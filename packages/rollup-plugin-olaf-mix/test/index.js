@@ -1,7 +1,6 @@
-// import MixManager from './MixManager';
 class Bar{
     /* @olaf-mix */
-    static mix(){
+    static mix(params){
        console.log('just a test');
     }
 }

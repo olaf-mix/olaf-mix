@@ -89,4 +89,4 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 .idea
-test/index._rollup.js
+test/*output.*

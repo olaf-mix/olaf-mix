@@ -13,8 +13,12 @@ module.exports = (options = {}) => {
         },
         transform(code, id) {
             if (!filter(id)) return null;
+            let parser = /^.*\.tsx?$/.test(id) ? 'ts' : 'js';
+            if (options.parser){
+                parser = options.parser
+            }
             return {
-                code: mixCode(code, {forceInjected})
+                code: mixCode(code, {forceInjected, parser})
             };
         }
     };
