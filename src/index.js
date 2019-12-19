@@ -127,7 +127,7 @@ const mixCode = function(code, options){
     } else {
         root = j(code);
     }
-    transformHandler(root, options.forceInjected);
+    transformHandler(root, {forceInjected: options.forceInjected});
     if (options.returnAST){
         return root;
     }
