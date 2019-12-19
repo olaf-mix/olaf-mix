@@ -1,7 +1,7 @@
 const resolve  = require('@rollup/plugin-node-resolve');
 const commonjs  = require('rollup-plugin-commonjs');
 const babel  = require('rollup-plugin-babel');
-import typescript from 'rollup-plugin-typescript';
+const typescript = require('rollup-plugin-typescript');
 const path = require('path');
 
 module.exports = () => {
