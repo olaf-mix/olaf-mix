@@ -43,10 +43,14 @@ const transformHandler = function(root, options = {forceInjected: false}) {
     visitOlafMix('@olaf-mix', root,npath => {
         const ncollection = j(npath)
         const ntype = npath.getValueProperty('type');
-        if (ntype === 'MethodDefinition'){
+        if (ntype === 'MethodDefinition' || ntype === 'ClassMethod'){
             log.debug('******** 方法定义 ********')
+            let filter = null;
+            if (ntype === 'ClassMethod'){
+                filter = _ => _.parentPath.name !== 'params'
+            }
             ncollection
-                .findImmediateChildren(j.Identifier)
+                .findImmediateChildren(j.Identifier, filter)
                 .refactorIdentifierToStringExpression()
             log.debug('******** 函数定义 ********')
             // ncollection
@@ -108,15 +112,21 @@ const JSCODESHIFT_DEFAULT_OPTION = {
 const DEFAULT_OPTION =  {
     forceInjected: false,
     returnAST: false,
-    jscodeshift: JSCODESHIFT_DEFAULT_OPTION
+    jscodeshift: JSCODESHIFT_DEFAULT_OPTION,
+    parser: 'js'
 };
 
 const mixCode = function(code, options){
     options = {
         ...DEFAULT_OPTION,
         ...options
+    };
+    let root = null;
+    if (options.parser !== 'js'){
+        root = j.withParser(options.parser)(code);
+    } else {
+        root = j(code);
     }
-    const root = j(code);
     transformHandler(root, options.forceInjected);
     if (options.returnAST){
         return root;

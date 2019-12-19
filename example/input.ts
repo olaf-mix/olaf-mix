@@ -3,7 +3,7 @@
 /**
  * 数字工具类
  */
-class Foo {
+class Bar {
     /**
      * @olaf-mix
      * 整数补0
@@ -11,7 +11,7 @@ class Foo {
      * @param length 最终的长度
      * @returns 整数字符串
      */
-    static makeNumber(number, length) {
+    static makeNumber(number: number, length: number): string {
         return String(number).padStart(length, String(0));
     }
 
@@ -40,4 +40,6 @@ class Foo {
     }
 }
 
-export default Foo;
+export {
+    Bar
+};

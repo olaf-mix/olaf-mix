@@ -26,12 +26,15 @@ j.registerMethods({
     refactorIdentifierToStringExpression: function (needBracketsWrapper = true) {
         return this.replaceWith(p => CONVER_IDENTIFIER_TO_STRING_EXPRESSION(p, needBracketsWrapper))
     },
-    findImmediateChildren: function(type){
+    findImmediateChildren: function(type, filter){
         if (!this.isOfType(j.Node)) return [];
         return this.map(parentPath => {
             return j(parentPath)
                 .find(type)
                 .filter(p => {
+                    if (filter && !filter(p)){
+                        return false;
+                    }
                     return p.parentPath.node === parentPath.node;
                 })
                 .paths();
