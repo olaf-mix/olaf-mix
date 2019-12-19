@@ -8,7 +8,8 @@
     "test": "test"
   },
   "scripts": {
-    "transform-ts2js": "rollup -c --watch --config ./example/rollup.config.js",
+    "rollup": "rollup -c --watch --config ./example/rollup.config.js",
+    "domix": "RUN_MODE=debug node ./example/index.js",
     "test": "jest"
   },
   "repository": {
@@ -26,10 +27,10 @@
   },
   "homepage": "https://github.com/jinbaozheng/olaf-mix#readme",
   "dependencies": {
+    "jscodeshift": "^0.6.4",
     "loglevel": "^1.6.6",
     "md5": "^2.2.1",
-    "numeral": "^2.0.6",
-    "jscodeshift": "^0.6.4"
+    "numeral": "^2.0.6"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^6.0.0",
@@ -38,9 +39,9 @@
     "rollup": "^1.27.13",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-uglify": "^6.0.0",
     "rollup-plugin-typescript": "^1.0.0",
-    "typescript": "^3.2.1",
-    "tslib": "^1.9.3"
+    "rollup-plugin-uglify": "^6.0.0",
+    "tslib": "^1.9.3",
+    "typescript": "^3.2.1"
   }
 }
