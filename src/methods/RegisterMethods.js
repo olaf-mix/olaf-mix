@@ -51,6 +51,9 @@ j.registerMethods({
             }
             if (object.getValueProperty('type') === 'Identifier'){
             }
+            if (object.getValueProperty('type') === 'MemberExpression'){
+                j(object).renameMemberExpressionVariable();
+            }
         })
     }
 });
@@ -88,3 +91,11 @@ j.registerMethods({
         return null;
     },
 }, j.Identifier);
+
+j.registerMethods({
+    isType: function(type){
+        return object.getValueProperty('type') === type
+    },
+}, j.Node);
+
+
