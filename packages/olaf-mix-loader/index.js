@@ -2,6 +2,7 @@ const j = require('jscodeshift');
 const path = require('path');
 const fs = require('fs');
 const {mixCode} = require('@olaf-mix/olaf-mix');
+const {getOptions} = require('loader-utils');
 
 // const config_path = path.resolve(process.cwd(), '.olaf.config.js');
 // let config = null;
@@ -12,8 +13,12 @@ const {mixCode} = require('@olaf-mix/olaf-mix');
 // }
 
 function OlafMixLoader(source) {
-    const self = this;
-    return mixCode(source, {forceInjected: true});
+    const options = getOptions(this) || {};
+    let parser = /^.*\.tsx?$/.test(this.resourcePath) ? 'ts' : 'js';
+    if (options.parser){
+        parser = options.parser
+    }
+    return mixCode(source, {forceInjected: true, parser});
 }
 
 

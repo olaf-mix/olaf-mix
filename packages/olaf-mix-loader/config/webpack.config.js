@@ -1,10 +1,11 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const olaf = require('../index.js')
 
 module.exports = {
     // mode: 'development',
     mode: 'production',
-    entry: path.resolve(__dirname, '..', 'test', 'index.js'),
+    entry: path.resolve(__dirname, '..', 'test', 'index.ts'),
     output: {
         library: 'main',
         libraryTarget: 'umd',
@@ -19,6 +20,19 @@ module.exports = {
                 use: [
                     'babel-loader',
                     path.resolve(__dirname, '../index.js'),
+                ],
+
+            },
+            {
+                test: /\.tsx?$/,
+                loader: [
+                    'ts-loader',
+                    {
+                        loader: path.resolve(__dirname, '../index.js'),
+                        options: {
+                            parser: 'ts'
+                        }
+                    }
                 ]
             }
         ]
