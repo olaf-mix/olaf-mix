@@ -5,7 +5,7 @@ const olaf = require('../index.js')
 module.exports = {
     // mode: 'development',
     mode: 'production',
-    entry: path.resolve(__dirname, '..', 'test', 'index.ts'),
+    entry: path.resolve(__dirname, '..', 'test', 'index.js'),
     output: {
         library: 'main',
         libraryTarget: 'umd',

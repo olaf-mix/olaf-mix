@@ -56,7 +56,7 @@ const transformHandler = function(root, options = {forceInjected: false}) {
             // ncollection
             //     .find(j.FunctionDeclaration)
             //     .findImmediateChildren(j.Identifier)
-            log.debug('********  表达式子树  ********')
+            log.debug('******** 表达式子树 ********')
             ncollection
                 .find(j.BlockStatement)
                 .find(j.ExpressionStatement)
