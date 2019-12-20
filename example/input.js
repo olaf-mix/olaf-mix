@@ -5,7 +5,6 @@
  */
 class Foo {
     /**
-     * @olaf-mix
      * 整数补0
      * @param number 整数
      * @param length 最终的长度
@@ -15,28 +14,12 @@ class Foo {
         return String(number).padStart(length, String(0));
     }
 
-    static makeProperty(){
-        console.log('I want jump')
-        const a = {
-            whatTypeDoing: null
-        }
-        /**
-         * @olaf-mix
-         */
-        a.whatTypeDoing = function (_, dateDoing, strDoing, numDoing, otherDoing) {
-            if (typeof (_) === 'string') {
-                strDoing();
-            }
-            if (typeof (_) === 'number') {
-                numDoing();
-            }
-            if (_ instanceof Date) {
-                dateDoing();
-            }
-            if (otherDoing) {
-                otherDoing();
-            }
-        };
+    /**
+     * @olaf-mix
+     */
+    static getAccount(){
+        const a = {};
+        return a.b.c.d.e.f('account');
     }
 }
 
