@@ -8,7 +8,7 @@ require('./methods/registerMethods');
 function injectedHelperCode(root) {
     root.findImmediateChildren(j.Program).forEach(_ => {
         _.getValueProperty('body').unshift(
-            j.variableDeclaration('const',
+            j.variableDeclaration('var',
                 MIX_LIST.map(({k, v}) => {
                     return j.variableDeclarator(
                         j.identifier(k),
