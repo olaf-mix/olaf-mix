@@ -18,7 +18,7 @@ function OlafMixLoader(source) {
     if (options.parser){
         parser = options.parser
     }
-    return mixCode(source, {forceInjected: true, parser});
+    return mixCode(source, {refreshHelpCode: true, parser}).source;
 }
 
 

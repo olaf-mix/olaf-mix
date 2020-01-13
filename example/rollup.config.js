@@ -6,7 +6,7 @@ const path = require('path');
 
 module.exports = () => {
     return {
-        input: path.resolve(__dirname, 'output.ts'),
+        input: path.resolve(__dirname, 'input.ts'),
         output: {
             name: 'main',
             globals: {

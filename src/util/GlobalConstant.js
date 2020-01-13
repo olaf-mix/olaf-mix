@@ -17,7 +17,7 @@ for (let i = 0; i < PIECE_COUNT; i++){
     for (let j = 0; j < charLength && cacheChar.length > 0; j++){
         piece += cacheChar.splice(Math.floor(Math.random()*cacheChar.length), 1)[0];
     }
-    MIX_BOOK[`__${key}__`] = piece;
+    MIX_BOOK[`__olaf__${key}__`] = piece;
 }
 
 

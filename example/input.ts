@@ -1,11 +1,31 @@
 'use strict';
+// import './tmp.ts';
+
+/**
+ * @olaf-mix asd
+ */
+function base64FromLetter(letter) {
+    const a: any = {};
+    return a.b.c.d.e.f('account');
+}
 
 /**
  * 数字工具类
  */
-class Bar {
+class Bar{
+
     /**
      * @olaf-mix
+     */
+    static test(){
+        const a = {
+            k: 'asd'
+        };
+        const b = 'k';
+        console.log(a[b]);
+    }
+
+    /**
      * 整数补0
      * @param number 整数
      * @param length 最终的长度
@@ -15,13 +35,22 @@ class Bar {
         return String(number).padStart(length, String(0));
     }
 
+    /**
+     * @olaf-mix
+     */
+    static getAccount(){
+        const a: any = {};
+        return a.b.c.d.e.f('account');
+    }
+
+
     static makeProperty(){
         console.log('I want jump')
         const a = {
             whatTypeDoing: null
         }
         /**
-         * @olaf-mix
+         * @ola1f-mix
          */
         a.whatTypeDoing = function (_, dateDoing, strDoing, numDoing, otherDoing) {
             if (typeof (_) === 'string') {
@@ -39,5 +68,4 @@ class Bar {
         };
     }
 }
-
 export default Bar;

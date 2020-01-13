@@ -45,9 +45,12 @@ j.registerMethods({
         return this.forEach(_ => {
             const object = _.get('object');
             const property = _.get('property');
+            const computed = _.getValueProperty('computed');
             if (property.getValueProperty('type') === 'Identifier'){
-                j(property).refactorIdentifierToStringExpression(false);
-                j(_).replaceWithKey('computed', true)
+                if(!computed){
+                    j(property).refactorIdentifierToStringExpression(false);
+                    j(_).replaceWithKey('computed', true)
+                }
             }
             if (object.getValueProperty('type') === 'Identifier'){
             }
@@ -57,6 +60,15 @@ j.registerMethods({
         })
     }
 });
+
+j.registerMethods({
+    getCalleeNodes: function () {
+       return j(this.get('callee'))
+    },
+    getArgumentNodes: function () {
+        return j(this.get('arguments'))
+    },
+}, j.CallExpression);
 
 
 j.registerMethods({

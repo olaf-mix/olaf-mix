@@ -1,61 +1,86 @@
 const numeral = require('numeral');
 const log = require('loglevel');
-const j = require('jscodeshift')
-const {MIX_LIST} = require('./util/GlobalConstant');
+const j = require('jscodeshift');
+const {MIX_LIST: DEFAULT_MIX_LIST} = require('./util/GlobalConstant');
 require('./methods/registerMethods');
 
-
-function injectedHelperCode(root) {
-    root.findImmediateChildren(j.Program).forEach(_ => {
-        _.getValueProperty('body').unshift(
-            j.variableDeclaration('var',
-                MIX_LIST.map(({k, v}) => {
-                    return j.variableDeclarator(
-                        j.identifier(k),
-                        j.literal(v)
-                    );
-                })
+function doInject(root, options) {
+    const {mode, mixList} = options;
+    if(mode === 'module'){
+        root.findImmediateChildren(j.Program).forEach(_ => {
+            _.getValueProperty('body').unshift(
+                j.variableDeclaration('var',
+                    mixList.map(({k, v}) => {
+                        return j.variableDeclarator(
+                            j.identifier(k),
+                            j.literal(v)
+                        );
+                    })
+                )
             )
-        )
-    });
-}
-
-function visitOlafMix(comment, root, callback){
-    root.find(j.Comment).forEach(_ => {
-        const commentValue = _.getValueProperty('value');
-        if (!~commentValue.indexOf(comment)){
-            return;
-        } else {
-            j(_).replaceWithKey('value', _ => _.value.replace(comment, '@olaf-finish'))
-        }
-        callback(_.parentPath.parentPath);
-    })
-}
-
-let isInjectedHelperCode = false;
-const transformHandler = function(root, options = {forceInjected: false}) {
-    log.debug('********************')
-    const {forceInjected} = options;
-    if (forceInjected || !isInjectedHelperCode){
-        injectedHelperCode(root);
-        isInjectedHelperCode = true;
+        });
+    } else if (mode === 'umd'){
+        root.findImmediateChildren(j.Program)
+            .findImmediateChildren(j.ExpressionStatement)
+            .findImmediateChildren(j.CallExpression)
+            .getArgumentNodes()
+            .findImmediateChildren(j.FunctionExpression)
+            .forEach(node => {
+                try{
+                    const body = node.get('body').value.body;
+                    const varNode = j.variableDeclaration('var',
+                        mixList.map(({k, v}) => {
+                            return j.variableDeclarator(
+                                j.identifier(k),
+                                j.literal(v)
+                            );
+                        })
+                    );
+                    body.splice(1, 0, varNode);
+                } catch (e) {
+                    console.error(`生成辅助方法失败: ${e}`);
+                }
+            })
     }
-    visitOlafMix('@olaf-mix', root,npath => {
+    return {
+        root,
+        options
+    }
+}
+
+let hadInjectedHelperCode = false;
+const doTransform = function(root, options) {
+    log.debug('********************')
+    const {moduleInjectedHelpCode, refreshHelpCode, mixList} = options;
+    if (moduleInjectedHelpCode){
+        if (refreshHelpCode || !hadInjectedHelperCode){
+            doInject(root, {
+                mixList,
+                mode: 'module'
+            });
+            hadInjectedHelperCode = true;
+        }
+    }
+    _visitOlafMix('@olaf-mix', root,npath => {
         const ncollection = j(npath)
         const ntype = npath.getValueProperty('type');
-        if (ntype === 'MethodDefinition' || ntype === 'ClassMethod'){
+        if (ntype === 'MethodDefinition' ||
+            ntype === 'ClassMethod' ||
+            ntype === 'FunctionDeclaration'){
             log.debug('******** 方法定义 ********')
             let filter = null;
             if (ntype === 'ClassMethod'){
                 filter = _ => _.parentPath.name !== 'params'
             }
-            ncollection
-                .findImmediateChildren(j.Identifier, filter)
-                .refactorIdentifierToStringExpression()
+            if (ntype !== 'FunctionDeclaration'){
+                ncollection
+                    .findImmediateChildren(j.Identifier, filter)
+                    .refactorIdentifierToStringExpression()
+            }
             log.debug('******** 函数定义 ********')
-            // ncollection
-            //     .find(j.FunctionDeclaration)
-            //     .findImmediateChildren(j.Identifier)
+            ncollection
+                .find(j.FunctionDeclaration)
+                .findImmediateChildren(j.Identifier)
             log.debug('******** 表达式子树 ********')
             ncollection
                 .find(j.BlockStatement)
@@ -90,7 +115,7 @@ const transformHandler = function(root, options = {forceInjected: false}) {
             log.debug('异常定义');
         }
     });
-    visitOlafMix('@olaf-string', root,npath => {
+    _visitOlafMix('@olaf-string', root,npath => {
         const ncollection = j(npath)
         const ntype = npath.getValueProperty('type');
         if (ntype === 'VariableDeclaration') {
@@ -102,38 +127,86 @@ const transformHandler = function(root, options = {forceInjected: false}) {
         }
     })
     log.debug('--------------------')
-    return true;
+    return {
+        mixList
+    };
 };
+
+function _visitOlafMix(comment, root, callback){
+    root.find(j.Comment).forEach(_ => {
+        const commentValue = _.getValueProperty('value');
+        if (!~commentValue.indexOf(comment)){
+            return;
+        } else {
+            _.replace(j.commentBlock(commentValue.replace(comment, '@olaf-finish')));
+        }
+        callback(_.parentPath.parentPath);
+    })
+}
 
 const JSCODESHIFT_DEFAULT_OPTION = {
     quote: 'single'
 };
 
 const DEFAULT_OPTION =  {
-    forceInjected: false,
-    returnAST: false,
+    moduleInjectedHelpCode: true,
+    refreshHelpCode: false,
     jscodeshift: JSCODESHIFT_DEFAULT_OPTION,
     parser: 'js'
 };
 
+const injectHelperCode = function (code, options = {}) {
+    const opt = safeOptions(options);
+    const {parser, mode='module', mixList=DEFAULT_MIX_LIST} = opt;
+    let root = createJNode(code, parser);
+    doInject(root, {
+        mode,
+        mixList
+    });
+    return {
+        mixList,
+        root,
+        source: root.toSource({...opt.jscodeshift})
+    }
+}
+
 const mixCode = function(code, options){
-    options = {
-        ...DEFAULT_OPTION,
-        ...options
-    };
-    let root = null;
-    if (options.parser !== 'js'){
-        root = j.withParser(options.parser)(code);
+    const opt = safeOptions(options);
+    const {parser, moduleInjectedHelpCode, refreshHelpCode, mixList=DEFAULT_MIX_LIST} = opt;
+    let root = createJNode(code, parser);
+    doTransform(root, {moduleInjectedHelpCode, refreshHelpCode, mixList});
+    return {
+        mixList,
+        root,
+        source: root.toSource({...opt.jscodeshift})
+    }
+};
+
+const generateMixList = function () {
+   return DEFAULT_MIX_LIST;
+}
+
+const createJNode = function(code, parser){
+    let root;
+    if (parser !== 'js'){
+        root = j.withParser(parser)(code);
     } else {
         root = j(code);
     }
-    transformHandler(root, {forceInjected: options.forceInjected});
-    if (options.returnAST){
-        return root;
-    }
-    return root.toSource({...options.jscodeshift});
+    return root
+};
+
+const safeOptions = function(options){
+    return {
+        ...DEFAULT_OPTION,
+        ...options
+    };
 }
 
 module.exports = {
     mixCode,
+    injectHelperCode,
+    generateMixList
 };
+
+

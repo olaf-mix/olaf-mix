@@ -3,6 +3,7 @@ const commonjs  = require('rollup-plugin-commonjs');
 const babel  = require('rollup-plugin-babel');
 const { uglify } = require('rollup-plugin-uglify');
 const typescript = require('@rollup/plugin-typescript');
+const inject = require('@rollup/plugin-inject');
 const path = require('path');
 const olaf = require('../index.js');
 
@@ -30,7 +31,7 @@ module.exports = () => {
     }, {
         input: path.resolve(__dirname, '..', 'test', 'index.ts'),
         output: {
-            name: 'main',
+            name: 'maints',
             globals: {
                 md5: 'md5'
             },
