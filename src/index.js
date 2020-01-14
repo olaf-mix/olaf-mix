@@ -1,22 +1,27 @@
 const numeral = require('numeral');
 const log = require('loglevel');
 const j = require('jscodeshift');
-const {MIX_LIST: DEFAULT_MIX_LIST} = require('./util/GlobalConstant');
+const {flatMixSet, generateMixSet} = require('./methods/HelperMethods');
 require('./methods/registerMethods');
 
+const DEFAULT_MIX_LIST = generateMixSet();
+
 function doInject(root, options) {
-    const {mode, mixList} = options;
+    const {mode, mixSet} = options;
+    const generateHelperVarNode = (mixSet) => {
+        return j.variableDeclaration('var',
+            flatMixSet(mixSet).map(({name, value}) => {
+                return j.variableDeclarator(
+                    j.identifier(name),
+                    j.literal(value)
+                );
+            })
+        )
+    };
     if(mode === 'module'){
         root.findImmediateChildren(j.Program).forEach(_ => {
             _.getValueProperty('body').unshift(
-                j.variableDeclaration('var',
-                    mixList.map(({k, v}) => {
-                        return j.variableDeclarator(
-                            j.identifier(k),
-                            j.literal(v)
-                        );
-                    })
-                )
+                generateHelperVarNode(mixSet)
             )
         });
     } else if (mode === 'umd'){
@@ -28,15 +33,10 @@ function doInject(root, options) {
             .forEach(node => {
                 try{
                     const body = node.get('body').value.body;
-                    const varNode = j.variableDeclaration('var',
-                        mixList.map(({k, v}) => {
-                            return j.variableDeclarator(
-                                j.identifier(k),
-                                j.literal(v)
-                            );
-                        })
-                    );
-                    body.splice(1, 0, varNode);
+                    const varNode = generateHelperVarNode(mixSet);
+                    if (body.length > 1){
+                        body.splice(Math.floor(1+Math.random()*(body.length-2)), 0, varNode);
+                    }
                 } catch (e) {
                     console.error(`生成辅助方法失败: ${e}`);
                 }
@@ -51,11 +51,11 @@ function doInject(root, options) {
 let hadInjectedHelperCode = false;
 const doTransform = function(root, options) {
     log.debug('********************')
-    const {moduleInjectedHelpCode, refreshHelpCode, mixList} = options;
+    const {moduleInjectedHelpCode, refreshHelpCode, mixSet} = options;
     if (moduleInjectedHelpCode){
         if (refreshHelpCode || !hadInjectedHelperCode){
             doInject(root, {
-                mixList,
+                mixSet,
                 mode: 'module'
             });
             hadInjectedHelperCode = true;
@@ -105,13 +105,13 @@ const doTransform = function(root, options) {
             log.debug('******** 常量定义 ********')
             ncollection
                 .find(j.Literal)
-                .refactorLiteralValue()
+                .refactorLiteralValue(mixSet)
         } else if (ntype === 'ClassDeclaration'){
             log.debug('定义类');
         } else if (ntype === 'VariableDeclaration') {
             ncollection
                 .find(j.Literal)
-                .refactorLiteralValue()
+                .refactorLiteralValue(mixSet)
             log.debug('异常定义');
         }
     });
@@ -121,14 +121,14 @@ const doTransform = function(root, options) {
         if (ntype === 'VariableDeclaration') {
             ncollection
                 .find(j.Literal)
-                .refactorLiteralValue(1)
+                .refactorLiteralValue(mixSet, 1)
         } else {
             log.debug('异常定义');
         }
     })
     log.debug('--------------------')
     return {
-        mixList
+        mixSet
     };
 };
 
@@ -157,14 +157,14 @@ const DEFAULT_OPTION =  {
 
 const injectHelperCode = function (code, options = {}) {
     const opt = safeOptions(options);
-    const {parser, mode='module', mixList=DEFAULT_MIX_LIST} = opt;
+    const {parser, mode='module', mixSet=DEFAULT_MIX_LIST} = opt;
     let root = createJNode(code, parser);
     doInject(root, {
         mode,
-        mixList
+        mixSet
     });
     return {
-        mixList,
+        mixSet,
         root,
         source: root.toSource({...opt.jscodeshift})
     }
@@ -172,19 +172,16 @@ const injectHelperCode = function (code, options = {}) {
 
 const mixCode = function(code, options){
     const opt = safeOptions(options);
-    const {parser, moduleInjectedHelpCode, refreshHelpCode, mixList=DEFAULT_MIX_LIST} = opt;
+    const {parser, moduleInjectedHelpCode, refreshHelpCode, mixSet=DEFAULT_MIX_LIST} = opt;
     let root = createJNode(code, parser);
-    doTransform(root, {moduleInjectedHelpCode, refreshHelpCode, mixList});
+    doTransform(root, {moduleInjectedHelpCode, refreshHelpCode, mixSet});
     return {
-        mixList,
+        mixSet,
         root,
         source: root.toSource({...opt.jscodeshift})
     }
 };
 
-const generateMixList = function () {
-   return DEFAULT_MIX_LIST;
-}
 
 const createJNode = function(code, parser){
     let root;
@@ -206,7 +203,7 @@ const safeOptions = function(options){
 module.exports = {
     mixCode,
     injectHelperCode,
-    generateMixList
+    ...require('./methods/HelperMethods')
 };
 
 

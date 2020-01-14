@@ -72,12 +72,12 @@ j.registerMethods({
 
 
 j.registerMethods({
-    refactorLiteralValue: function (type = 0) {
+    refactorLiteralValue: function (mixSet, type = 0) {
         // type === 0
         if (!type){
-            return this.replaceWith(p => CONVER_LITERAL_MATTER(p))
+            return this.replaceWith(p => CONVER_LITERAL_MATTER(mixSet, p))
         } else if (type === 1){
-            return this.replaceWith(p => CONVER_LITERAL_TO_BUFFER_MATTER(p))
+            return this.replaceWith(p => CONVER_LITERAL_TO_BUFFER_MATTER(mixSet, p))
         } else {
             return type;
         }

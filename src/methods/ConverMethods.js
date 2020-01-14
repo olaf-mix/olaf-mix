@@ -1,10 +1,10 @@
 const j = require('jscodeshift');
 const numeral = require('numeral');
-const {getStringPositionFromMixBook} = require('./HelperMethods');
+const {getStringPositionFromMixSet} = require('./HelperMethods');
 
 
-const MIX_LIST_FROM_STRING = (string) => {
-    return string.split('').map(_ => getStringPositionFromMixBook(_) || {key: _, position: -1});
+const MIX_FOR_TEXT = (mixSet, text) => {
+    return text.split('').map(_ => getStringPositionFromMixSet(mixSet, _));
 };
 
 const CONVER_IDENTIFIER_TO_STRING_EXPRESSION = (path, needBracketsWrapper) => {
@@ -20,7 +20,7 @@ const CONVER_IDENTIFIER_TO_STRING_EXPRESSION = (path, needBracketsWrapper) => {
 };
 
 
-const CONVER_LITERAL_TO_BUFFER_MATTER = (path) => {
+const CONVER_LITERAL_TO_BUFFER_MATTER = (mixSet, path) => {
     const value = path.getValueProperty('value');
     if (typeof value === 'string'){
 
@@ -34,34 +34,34 @@ const CONVER_LITERAL_TO_BUFFER_MATTER = (path) => {
 };
 
 
-const CONVER_LITERAL_MATTER = (path) => {
+const CONVER_LITERAL_MATTER = (mixSet, path) => {
     const value = path.getValueProperty('value');
     if (typeof value === 'string'){
-        const mix_list = MIX_LIST_FROM_STRING(value);
-        const safeMemberExpression = ({key, position}) => {
+        const mixed_text = MIX_FOR_TEXT(mixSet, value);
+        const safeMemberExpression = ({key, position, oriString}) => {
             if (position === -1){
-                return j.stringLiteral(key)
+                return j.stringLiteral(oriString)
             }
-            const numericLiteral = j.numericLiteral(position)
-            numericLiteral.extra.raw = `0x${position.toString(16).padStart(2, '0')}`
+            const numericLiteral = j.numericLiteral(position);
+            numericLiteral.extra.raw = `0x${position.toString(16).padStart(2, '0')}`;
             return j.memberExpression(
                 j.identifier(key),
                 numericLiteral,
                 true
             )
         };
-        const createBinary = (index, mix_list) => {
+        const createBinary = (index, mt) => {
             if (index === 0){
-                return safeMemberExpression(mix_list[index])
+                return safeMemberExpression(mt[index])
             }
             return j.binaryExpression(
                 '+',
-                createBinary(index - 1, mix_list),
-                safeMemberExpression(mix_list[index])
+                createBinary(index - 1, mt),
+                safeMemberExpression(mt[index])
             );
         };
-        if (mix_list.length > 0){
-            return createBinary(mix_list.length - 1, mix_list)
+        if (mixed_text.length > 0){
+            return createBinary(mixed_text.length - 1, mixed_text)
         }
     }
     if (typeof value === 'number'){
