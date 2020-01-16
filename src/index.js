@@ -133,7 +133,7 @@ const doTransform = function(root, options) {
             log.debug('异常定义');
         }
     });
-    _visitOlafMix('@olaf-methods', root,npath => {
+    _visitOlafMix('@olaf-method', root,npath => {
         mixMethodNode({npath, mixSet})
     });
     _visitOlafMix('@olaf-string', root,npath => {
