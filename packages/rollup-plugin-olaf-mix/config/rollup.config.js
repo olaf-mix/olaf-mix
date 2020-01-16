@@ -7,7 +7,7 @@ const path = require('path');
 const olaf = require('../index.js');
 
 module.exports = () => {
-    return [{
+    return [/*{
         input: path.resolve(__dirname, '..', 'test', 'index.js'),
         output: {
             name: 'main',
@@ -27,12 +27,12 @@ module.exports = () => {
         ],
         external: [ 'md5' ],
         treeshake: true
-    }, {
+    }, */{
         input: path.resolve(__dirname, '..', 'test', 'index.ts'),
         output: {
             name: 'maints',
             globals: {
-                md5: 'md5'
+                // md5: 'md5'
             },
             file: path.resolve(__dirname, '..', 'test', 'index.typescript.output.js'),
             format: 'umd'
@@ -44,9 +44,10 @@ module.exports = () => {
             babel({
                 exclude: 'node_modules/**'
             }),
-            typescript()
+            typescript({lib: ["es5", "es6", "dom"], target: "es5"}),
+            // uglify()
         ],
-        external: [ 'md5' ],
+        // external: [ 'md5' ],
         treeshake: true
     }]
 };

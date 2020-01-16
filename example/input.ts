@@ -1,6 +1,15 @@
 'use strict';
 // import './tmp.ts';
 
+const a = {
+    /* @olaf-mix*/
+    viewFillData() {
+        console.log('aaa')
+    },
+};
+
+a.viewFillData()
+
 /**
  * @olaf-mix asd
  */

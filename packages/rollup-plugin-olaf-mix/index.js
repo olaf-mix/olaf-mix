@@ -1,17 +1,18 @@
 const j = require('jscodeshift');
 const helpers = require('@babel/helpers');
 const { createFilter } = require('@rollup/pluginutils');
-const {mixCode, injectHelperCode, generateMixSet} = require('@olaf-mix/olaf-mix');
+const {mixCode, injectHelperCode, generateMixSet, chaosHelperCode} = require('@olaf-mix/olaf-mix');
 
 module.exports = (options = {}) => {
     const filter = createFilter(options.include, options.exclude, {
     });
-    const mixSet = generateMixSet();
+    const mixSet = generateMixSet(2);
     let hadInjectedHelper = false;
-    const moduleInjectedHelpCode = false;
+    const moduleInjectedHelpCode = true;
     return {
         name: 'rollup-plugin-olaf-mix',
         load(id){
+            hadInjectedHelper = false;
         },
         transform(code, id) {
             if (!filter(id)) return null;
@@ -20,7 +21,7 @@ module.exports = (options = {}) => {
                 parser = options.parser
             }
             console.log(id)
-            const opt = {moduleInjectedHelpCode, parser, mixSet, refreshHelpCode: hadInjectedHelper};
+            const opt = {moduleInjectedHelpCode, parser, refreshHelpCode: true, isFlatInject: true};
             const {source} = mixCode(code, opt);
             hadInjectedHelper = true;
             return {
@@ -31,7 +32,9 @@ module.exports = (options = {}) => {
         },
         renderChunk(code, chunk, options){
             if (!moduleInjectedHelpCode){
-                return injectHelperCode(code, {mixSet, mode: options.format}).source;
+                return injectHelperCode(code, {mode: options.format}).source;
+            } else {
+                return chaosHelperCode(code, {mode: options.format}).source
             }
             return null;
         },

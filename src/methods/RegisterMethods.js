@@ -73,7 +73,6 @@ j.registerMethods({
 
 j.registerMethods({
     refactorLiteralValue: function (mixSet, type = 0) {
-        // type === 0
         if (!type){
             return this.replaceWith(p => CONVER_LITERAL_MATTER(mixSet, p))
         } else if (type === 1){

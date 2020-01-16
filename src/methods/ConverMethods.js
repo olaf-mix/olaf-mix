@@ -38,14 +38,15 @@ const CONVER_LITERAL_MATTER = (mixSet, path) => {
     const value = path.getValueProperty('value');
     if (typeof value === 'string'){
         const mixed_text = MIX_FOR_TEXT(mixSet, value);
-        const safeMemberExpression = ({key, position, oriString}) => {
+        // TODO: 目前使用babel打包之后重新排序全局变量的方式进行处理，下个版本处理成一点点增加混淆变量的方式进行处理。
+        const safeMemberExpression = ({mixNodeKey, position, oriString}) => {
             if (position === -1){
                 return j.stringLiteral(oriString)
             }
             const numericLiteral = j.numericLiteral(position);
             numericLiteral.extra.raw = `0x${position.toString(16).padStart(2, '0')}`;
             return j.memberExpression(
-                j.identifier(key),
+                j.identifier(mixNodeKey),
                 numericLiteral,
                 true
             )

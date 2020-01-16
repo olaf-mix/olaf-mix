@@ -7,6 +7,7 @@ class Bar extends Foo{
     }
 }
 
+
 export {
     Bar,
 };

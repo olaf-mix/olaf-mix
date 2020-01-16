@@ -9,7 +9,7 @@
   },
   "scripts": {
     "rollup": "rollup -c --watch --config ./example/rollup.config.js",
-    "domix": "RUN_MODE=debug node ./example/index.js",
+    "domix": "RUN_MODE=debug node ./example/domix.js",
     "test": "jest"
   },
   "repository": {
