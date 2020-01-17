@@ -1,12 +1,12 @@
-import Foo from './other';
+import Foo from "./foo.js";
+
 class Bar extends Foo{
     /* @olaf-mix */
-    static sayGod(){
-       console.log('Oh~ God~!');
+    static mix(params){
+       console.log('just a test');
     }
-
 }
 
 export {
-    Bar
+    Bar,
 };

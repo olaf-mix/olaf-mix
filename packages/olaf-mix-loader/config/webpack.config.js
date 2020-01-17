@@ -9,7 +9,7 @@ module.exports = {
     output: {
         library: 'main',
         libraryTarget: 'umd',
-        filename: 'index._webpack.js',
+        filename: 'index.output.js',
         path: path.resolve(__dirname, '..', 'test'),
     },
     module: {
