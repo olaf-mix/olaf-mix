@@ -1,6 +1,6 @@
 {
   "name": "@olaf-mix/olaf-mix",
-  "version": "0.0.3-beta4",
+  "version": "0.0.4",
   "description": "A flexible obfuscation tool",
   "main": "./src/index.js",
   "directories": {
