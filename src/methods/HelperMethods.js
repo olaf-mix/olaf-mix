@@ -1,4 +1,10 @@
 let generteIndex = 0;
+
+/**
+ * 生成随机字符串组成的字典，字典的key为当前字符串的截断长度，value为截断长度的随机字符串组成的链表，其中随机字符串没有重复
+ * @param counts 需要截断的字符串长度的类表
+ * @return {Map<any, any>}
+ */
 function generateMixSet(...counts) {
     const ALL_LETTER = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY';
     const ALL_CHAR = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_#!~.*-+';

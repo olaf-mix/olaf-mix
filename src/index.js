@@ -53,7 +53,7 @@ function doInject(root, options) {
                     const varNode = generateHelperVarNode(mixSet, isFlatInject);
                     if (body.length > 1){
                         varNode.forEach(node => {
-                            body.splice(Math.floor(1+Math.random()*(body.length-2)), 0, node);
+                            body.splice(Math.floor(1 + Math.random()*(body.length-2)), 0, node);
                         });
                     }
 
@@ -105,20 +105,13 @@ function doChaosHelper(root, options){
     }
 }
 
-let hadInjectedHelperCode = false;
 const doTransform = function(root, options) {
     log.debug('********************')
-    const {moduleInjectedHelpCode, refreshHelpCode, mixSet, isFlatInject} = options;
+    const {moduleInjectedHelpCode, mixSet} = options;
     if (moduleInjectedHelpCode){
-        if (refreshHelpCode || !hadInjectedHelperCode){
-            doInject(root, {
-                mode: 'module',
-                mixSet,
-                isFlatInject
-            });
-            hadInjectedHelperCode = true;
-        }
+        doInject(root, options);
     }
+
     _visitOlafMix('@olaf-mix', root,npath => {
         const ntype = npath.getValueProperty('type');
         if (ntype === 'MethodDefinition' ||
@@ -168,20 +161,18 @@ const JSCODESHIFT_DEFAULT_OPTION = {
 
 const DEFAULT_OPTION =  {
     moduleInjectedHelpCode: true,
-    refreshHelpCode: false,
     autoChangeHelpCode: true,
     jscodeshift: JSCODESHIFT_DEFAULT_OPTION,
-    parser: 'js'
+    parser: 'js',
+    isFlatInject: false,
+    mixSet: DEFAULT_MIX_SET,
+    mode: 'module',
 };
 
 const chaosHelperCode = function (code, options = {}) {
-    const opt = safeOptions(options);
-    const {parser, mode='umd', mixSet=DEFAULT_MIX_SET} = opt;
-    let root = createJNode(code, parser);
-    doChaosHelper(root, {
-        mode,
-        mixSet
-    });
+    const opt = safeOptions(options), root = createJNode(code, opt.parser);
+    opt.mode = 'umd';
+    doChaosHelper(root, opt);
     return {
         mixSet,
         root,
@@ -190,14 +181,9 @@ const chaosHelperCode = function (code, options = {}) {
 };
 
 const injectHelperCode = function (code, options = {}) {
-    const opt = safeOptions(options);
-    const {parser, mode='module', mixSet=DEFAULT_MIX_SET, isFlatInject=false} = opt;
-    let root = createJNode(code, parser);
-    doInject(root, {
-        mode,
-        mixSet,
-        isFlatInject
-    });
+    const opt = safeOptions(options), root = createJNode(code, opt.parser);
+    opt.mode = opt.mode || 'module';
+    doInject(root, opt);
     return {
         mixSet,
         root,
@@ -205,15 +191,18 @@ const injectHelperCode = function (code, options = {}) {
     }
 };
 
+/**
+ * 混淆资源字符串
+ * @param code 资源字符串
+ * @param options 混淆配置项
+ * @return {{root: *, mixSet: *, source: *[]}}
+ */
 const mixCode = function(code, options){
-    const opt = safeOptions(options);
-    const {parser, moduleInjectedHelpCode, refreshHelpCode, autoChangeHelpCode, isFlatInject=false} = opt;
-    const defaultMixSet = autoChangeHelpCode ? generateMixSet(4, 5, 6) : DEFAULT_MIX_SET;
-    const mixSet = opt.mixSet || defaultMixSet;
-    let root = createJNode(code, parser);
-    doTransform(root, {moduleInjectedHelpCode, refreshHelpCode, mixSet, isFlatInject});
+    const opt = safeOptions(options), root = createJNode(code, opt.parser);
+    opt.mixSet = opt.mixSet || (opt.autoChangeHelpCode ? generateMixSet(4, 5, 6) : DEFAULT_MIX_SET);
+    doTransform(root, opt);
     return {
-        mixSet,
+        mixSet: opt.mixSet,
         root,
         source: root.toSource({...opt.jscodeshift})
     }
