@@ -1,14 +1,17 @@
 class Foo{
+    static TEST(){
+        return this.run() === 'I want jump'
+    }
+
     /* @olaf-mix */
     static run(){
-        console.log('I want run')
-        this.jump();
-        window.alert('A alert')
+        return `${this.jump()}`;
     }
     
     static jump(){
-        console.log('I want jump')
+        return 'I want jump'
     }
+
 }
 
-export default Foo;
+module.exports = Foo

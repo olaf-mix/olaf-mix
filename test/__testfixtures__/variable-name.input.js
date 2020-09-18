@@ -1,4 +1,7 @@
 class Foo{
+    static TEST(){
+        return this.run() === ''
+    }
     /* @olaf-mix */
     static run(){
         const bar = {
@@ -11,8 +14,8 @@ class Foo{
             h: /^reg$/g,
             i: null
         }
-        console.log(bar.baz)
+        return bar.baz;
     }
 }
 
-export default Foo;
+module.exports = Foo;
