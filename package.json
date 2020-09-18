@@ -8,23 +8,23 @@
     "test": "test"
   },
   "scripts": {
-    "domix": "RUN_MODE=debug node ./scripts/domix.js",
+    "debug": "node ./scripts/debug.js --debug",
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jinbaozheng/olaf-mix.git"
+    "url": "git+https://github.com/olaf-mix/olaf-mix.git"
   },
   "keywords": [
     "olaf-mix",
     "olaf"
   ],
-  "author": "jinbaozheng",
+  "author": "olaf-mix",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jinbaozheng/olaf-mix/issues"
+    "url": "https://github.com/olaf-mix/olaf-mix/issues"
   },
-  "homepage": "https://github.com/jinbaozheng/olaf-mix#readme",
+  "homepage": "https://github.com/olaf-mix/olaf-mix#readme",
   "dependencies": {
     "jscodeshift": "^0.11.0",
     "loglevel": "^1.6.6",
