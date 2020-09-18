@@ -8,8 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "rollup": "rollup -c --watch --config ./example/rollup.config.js",
-    "domix": "RUN_MODE=debug node ./example/domix.js",
+    "domix": "RUN_MODE=debug node ./scripts/domix.js",
     "test": "jest"
   },
   "repository": {
@@ -33,15 +32,6 @@
     "numeral": "^2.0.6"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^6.0.0",
-    "@rollup/pluginutils": "^3.0.0",
-    "rollup": "^2.27.1",
-    "@rollup/plugin-babel": "^5.2.1",
-    "@rollup/plugin-commonjs": "^15.0.0",
-    "@rollup/plugin-typescript": "^6.0.0",
-    "rollup-plugin-uglify": "^6.0.4",
-    "tslib": "^1.9.3",
-    "typescript": "^3.2.1",
     "jest": "^26.4.2"
   }
 }
