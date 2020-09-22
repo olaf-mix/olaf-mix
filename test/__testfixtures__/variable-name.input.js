@@ -1,6 +1,6 @@
 class Foo{
     static TEST(){
-        return this.run() === ''
+        return this.run() === 'BAZ'
     }
     /* @olaf-mix */
     static run(){
@@ -14,7 +14,7 @@ class Foo{
             h: /^reg$/g,
             i: null
         }
-        return bar.baz;
+        return bar.a;
     }
 }
 
