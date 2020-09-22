@@ -117,7 +117,8 @@ const doTransform = function(root, options) {
         if (ntype === 'MethodDefinition' ||
             ntype === 'ClassMethod' ||
             ntype === 'ObjectMethod' ||
-            ntype === 'FunctionDeclaration'){
+            ntype === 'FunctionDeclaration' ||
+            ntype === 'ExpressionStatement'){
             mixMethodNode({npath, mixSet})
         } else if (ntype === 'ClassDeclaration'){
             log.debug('定义类');
@@ -174,7 +175,7 @@ const chaosHelperCode = function (code, options = {}) {
     opt.mode = 'umd';
     doChaosHelper(root, opt);
     return {
-        mixSet,
+        mixSet: opt.mixSet,
         root,
         source: root.toSource({...opt.jscodeshift})
     }
@@ -185,7 +186,7 @@ const injectHelperCode = function (code, options = {}) {
     opt.mode = opt.mode || 'module';
     doInject(root, opt);
     return {
-        mixSet,
+        mixSet: opt.mixSet,
         root,
         source: root.toSource({...opt.jscodeshift})
     }

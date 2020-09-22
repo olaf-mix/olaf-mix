@@ -1,6 +1,15 @@
 'use strict';
 
 /**
+ * @olaf-mix
+ */
+Bar.mix = function (params, options) {
+    console.log(params);
+    Tool.makeTime();
+};
+return Bar;
+
+/**
  * 数字工具类
  */
 class Foo {
@@ -17,10 +26,27 @@ class Foo {
     /**
      * @olaf-mix
      */
-    static getAccount(){
-        const a = {};
-        return a.b.c.d.e.f('account');
+    static pickData(data){
+        const a = {
+            b: {
+                c: {
+                    d: {
+                        e: {
+                            f: function (data) {
+                                console.log(`data is ${data}`)
+                                return `data is ${data}`
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        const b = {
+            c: 1
+        }
+        const d = a.b.c.d.e.f(data);
+        return a.b.c.d.e.f(data);
     }
 }
 
-export default Foo;
+window.Foo = Foo

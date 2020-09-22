@@ -8,22 +8,8 @@
 <body>
 <div>just a test</div>
 <script>
-    var Bar = main.Bar;
+    window.Foo.pickData('CU@PPI1')
 
-    const AsyncFunction = Object.getPrototypeOf(async function() {
-    }).constructor;
-    const b = new AsyncFunction('name', `
-   console.log(name);
-   return name;
-`);
-
-    const c = b('just a test');
-    console.log(c);
-    c.then(data => {
-        console.log(data);
-    });
-    // var result = Bar.makeNumber(10, 5);
-    // console.log(result);
 </script>
 </body>
 </html>
